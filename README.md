@@ -1,4 +1,4 @@
-# serverless-websockets-demo
+# serverless-aws-websockets
 A simple chat using websockets, serverless and aws lambda
 
 ## Getting started:
