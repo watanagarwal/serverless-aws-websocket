@@ -17,3 +17,7 @@ A simple chat using websockets, serverless and aws lambda
   - Send messages:
   
   ```{"action":"sendMessage","userId": "2","body":"hello!"}```
+
+  - Broadcast messages:
+  
+  ```{"action":"broadcastMessage", "body":"hello!"}```

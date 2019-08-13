@@ -49,3 +49,14 @@ module.exports.wsSendMessageHandler = (event, context, callback) => {
     callback(null, JSON.stringify(error));
   });
 }
+
+module.exports.wsBroadcastMessageHandler = (event, context, callback) => {
+  console.log(event);
+
+  helper.broadcastMessage(event).then(() => {
+    callback(null, { statusCode: 200, body: 'Broadcasted to Room' })
+  }).catch((error) => {
+    console.log(error);
+    callback(null, JSON.stringify(error));
+  });
+}

@@ -68,6 +68,20 @@ module.exports.sendMessage = function sendMessage(event) {
     .then(sendMessageToUser);
 };
 
+module.exports.broadcastMessage = (event) => {
+  const message = JSON.parse(event.body);
+  const body = message.body;
+  return getConnectionIds().then(connectionData => {
+    console.log(connectionData);
+    return connectionData.map(data => {
+      console.log(data);
+      return sendWSMessage({requestContext: event.requestContext,
+        connectionId: data.connectionId,
+        data: {body: body }});
+    });
+  });
+}
+
 function getConnectionDetailsByUserId({ userId }) {
   const params = {
     TableName: USERS_CONNECTIONS_TABLE_NAME,
@@ -79,6 +93,17 @@ function getConnectionDetailsByUserId({ userId }) {
   return dynamodb.get(params).promise()
     .then((result) => result.Item);
 }
+
+function getConnectionIds(){  
+  const params = {
+    TableName: USERS_CONNECTIONS_TABLE_NAME,
+    ProjectionExpression: 'connectionId'
+  };
+
+  return dynamodb.scan(params).promise()
+  .then((result)=>result.Items);
+}
+
 
 function getConnectionDetailsByConnId({ connectionId }) {
   const params = {
@@ -105,6 +130,5 @@ function sendWSMessage({ requestContext, connectionId, data }) {
     ConnectionId: connectionId,
     Data: JSON.stringify(data)
   };
-
   return apigwManagementApi.postToConnection(params).promise();
 }

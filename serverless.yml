@@ -35,6 +35,11 @@ functions:
     events:
       - websocket:
           route: sendMessage
+  wsBroadcastMessageHandler:
+    handler: handler.wsBroadcastMessageHandler
+    events:
+      - websocket:
+          route: broadcastMessage
 
 
 resources:
