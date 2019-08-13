@@ -72,9 +72,7 @@ module.exports.broadcastMessage = (event) => {
   const message = JSON.parse(event.body);
   const body = message.body;
   return getConnectionIds().then(connectionData => {
-    console.log(connectionData);
     return connectionData.map(data => {
-      console.log(data);
       return sendWSMessage({requestContext: event.requestContext,
         connectionId: data.connectionId,
         data: {body: body }});
